@@ -1,3 +1,0 @@
-# moiqqa
-
-Muista juoda :coffee:
