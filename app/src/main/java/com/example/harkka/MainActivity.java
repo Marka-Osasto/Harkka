@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
 //        Data.import(fileName);
     }
     public void newDartsMatch(View v) {
-        Intent nextActivity = new Intent(context, GameDarts.class);
+        Intent nextActivity = new Intent(context, DartsSetup.class);
         this.startActivity(nextActivity);
     }
     public void newKillerMatch(View v) {
