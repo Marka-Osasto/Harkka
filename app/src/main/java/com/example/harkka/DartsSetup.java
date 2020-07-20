@@ -1,45 +1,57 @@
 package com.example.harkka;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.EditText;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import java.util.ArrayList;
 
 public class DartsSetup extends AppCompatActivity {
 
     int startingPoints;
     TextView text;
-    EditText player1;
-    EditText player2;
-    EditText player3;
-    EditText player4;
-    EditText player5;
-    EditText player6;
-    EditText player7;
-    EditText player8;
-    EditText player9;
-    EditText player10;
+    Spinner spinner;
+    int playerCount;
+    Context context;
+    LinearLayout linearLayout;
+    ArrayAdapter<Integer> arrayAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        context = DartsSetup.this;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_darts_setup);
+        linearLayout = new LinearLayout(context);
+        arrayAdapter = new ArrayAdapter<>(context, R.layout.support_simple_spinner_dropdown_item);
         text = findViewById(R.id.textView1);
-        player1 = findViewById(R.id.Player1);
-        player2 = findViewById(R.id.Player2);
-        player3 = findViewById(R.id.Player3);
-        player4 = findViewById(R.id.Player4);
-        player5 = findViewById(R.id.Player5);
-        player6 = findViewById(R.id.Player6);
-        player7 = findViewById(R.id.Player7);
-        player8 = findViewById(R.id.Player8);
-        player9 = findViewById(R.id.Player9);
-        player10 = findViewById(R.id.Player10);
+        spinner = findViewById(R.id.spinner);
+        linearLayout = findViewById(R.id.scrollLayout);
+        spinner.setPrompt("Player count");
+        Integer[] array = {2, 3, 4, 5, 6, 7, 8, 9, 10};
+        arrayAdapter.addAll(array);
+        spinner.setAdapter(arrayAdapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                playerCount = Integer.parseInt(spinner.getSelectedItem().toString());
+                for (int n = 1; n <= playerCount; n++) {
+                    Button button = new Button(context);
+                    button.setText("Player " + n);
+                    linearLayout.addView(button);
+                }
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
     }
     public void points501(View v) {
         text.setText("501 selected");
@@ -50,21 +62,5 @@ public class DartsSetup extends AppCompatActivity {
         startingPoints = 301;
     }
     public void start(View v) {
-        String[] players = new String[9];
-        players[0] = player1.getText().toString();
-        players[1] = player2.getText().toString();
-        players[2] = player3.getText().toString();
-        players[3] = player4.getText().toString();
-        players[4] = player5.getText().toString();
-        players[5] = player6.getText().toString();
-        players[6] = player7.getText().toString();
-        players[7] = player8.getText().toString();
-        players[8] = player9.getText().toString();
-        players[9] = player10.getText().toString();
-        ArrayList<String> playersList = new ArrayList<>();
-        for (String i : players) {
-            i.trim();
-            if ()
-        }
     }
 }

@@ -28,94 +28,11 @@
         android:layout_height="wrap_content"
         android:onClick="points301"
         android:text="301" />
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Add players, max 10"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textSize="28dp"
-        android:gravity="center"/>
 
-    <EditText
-        android:id="@+id/Player1"
+    <Spinner
+        android:id="@+id/spinner"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Player 1"
-        android:inputType="textPersonName" />
-
-    <EditText
-        android:id="@+id/Player2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Player 2"
-        android:inputType="textPersonName" />
-
-    <EditText
-        android:id="@+id/Player3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Player 3"
-        android:inputType="textPersonName" />
-
-    <EditText
-        android:id="@+id/Player4"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Player 4"
-        android:inputType="textPersonName" />
-
-    <EditText
-        android:id="@+id/Player5"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Player 5"
-        android:inputType="textPersonName" />
-
-    <EditText
-        android:id="@+id/Player6"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Player 6"
-        android:inputType="textPersonName" />
-
-    <EditText
-        android:id="@+id/Player7"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Player 7"
-        android:inputType="textPersonName" />
-
-    <EditText
-        android:id="@+id/Player8"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Player 8"
-        android:inputType="textPersonName" />
-
-    <EditText
-        android:id="@+id/Player9"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Player 9"
-        android:inputType="textPersonName" />
-
-    <EditText
-        android:id="@+id/Player10"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Player 10"
-        android:inputType="textPersonName" />
+        android:layout_height="42dp" />
 
     <Button
         android:id="@+id/button6"
@@ -123,5 +40,21 @@
         android:layout_height="wrap_content"
         android:onClick="start"
         android:text="Start game!" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/scrollLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"></LinearLayout>
 
 </LinearLayout>
