@@ -1,18 +1,14 @@
 package com.example.harkka;
 
-public abstract class Player {
-    private int score;
+import java.util.ArrayList;
 
-    protected int getScore() {
-        return score;
+public class Player {
+    private String name;
+    ArrayList<Score> scores = new ArrayList<>();
+    protected Player(String name) {
+        this.name = name;
     }
-    protected void setScore() {
+    protected void addScore() {
 
     }
-}
-class PlayerDarts extends Player {
-
-}
-class PlayerKiller extends Player {
-
 }
