@@ -2,13 +2,21 @@ package com.example.harkka;
 
 import java.util.ArrayList;
 
-public class Player {
+public abstract class Player {
     private String name;
-    ArrayList<Score> scores = new ArrayList<>();
-    protected Player(String name) {
+    Player(String name) {
         this.name = name;
     }
-    protected void addScore() {
-
+}
+class PlayerDarts extends Player {
+    PlayerDarts(String name) {
+        super(name);
+        ArrayList<ScoreDarts> scoreDarts = new ArrayList<>();
+    }
+}
+class PlayerKiller extends Player {
+    PlayerKiller(String name) {
+        super(name);
+        ArrayList<ScoreKiller> scoreKiller = new ArrayList<>();
     }
 }

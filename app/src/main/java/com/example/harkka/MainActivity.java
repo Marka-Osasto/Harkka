@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         this.startActivity(nextActivity);
     }
     public void newKillerMatch(View v) {
-        Intent nextActivity = new Intent(context, Game.class);
+        Intent nextActivity = new Intent(context, GameKiller.class);
         this.startActivity(nextActivity);
     }
 }
