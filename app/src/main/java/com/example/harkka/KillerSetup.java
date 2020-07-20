@@ -7,6 +7,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -14,12 +15,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 
-public class DartsSetup extends AppCompatActivity {
+public class KillerSetup extends AppCompatActivity {
 
-    int startingPoints;
+    int lives;
     TextView text;
-    Spinner spinner;
+    SeekBar seekBar;
     int playerCount;
+    Spinner spinner;
     Context context;
     LinearLayout linearLayout;
     ArrayAdapter<Integer> arrayAdapter;
@@ -27,14 +29,15 @@ public class DartsSetup extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        context = DartsSetup.this;
+        context = KillerSetup.this;
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_darts_setup);
+        setContentView(R.layout.activity_killer_setup);
         linearLayout = new LinearLayout(context);
         arrayAdapter = new ArrayAdapter<>(context, R.layout.support_simple_spinner_dropdown_item);
-        text = findViewById(R.id.textView1);
-        spinner = findViewById(R.id.spinner);
-        linearLayout = findViewById(R.id.scrollView);
+        text = findViewById(R.id.textViewLives);
+        seekBar = findViewById(R.id.liveBar);
+        linearLayout = findViewById(R.id.scrollViewKiller);
+        spinner = findViewById(R.id.spinner2);
         spinner.setPrompt("Player count");
         Integer[] array = {2, 3, 4, 5, 6, 7, 8, 9, 10};
         arrayAdapter.addAll(array);
@@ -57,19 +60,12 @@ public class DartsSetup extends AppCompatActivity {
             }
         });
     }
-    public void points501(View v) {
-        text.setText("501 selected");
-        startingPoints = 501;
-    }
-    public void points301(View v) {
-        text.setText("301 selected");
-        startingPoints = 301;
-    }
     public void start(View v) {
         for (int i = 0; i < linearLayout.getChildCount(); i++) {
             if (linearLayout.getChildAt(i) instanceof EditText) {
                 String child = ((EditText) linearLayout.getChildAt(i)).getText().toString();
                 players.add(child);
+                lives = seekBar.getProgress() + 1;
             }
         }
     }

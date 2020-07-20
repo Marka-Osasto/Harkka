@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".DartsSetup"></activity>
+        <activity android:name=".KillerSetup"></activity>
+        <activity android:name=".DartsSetup" />
         <activity android:name=".GameDarts" />
         <activity android:name=".GameKiller" />
         <activity android:name=".MainActivity">
