@@ -1,7 +1,9 @@
 package com.example.harkka;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -64,9 +66,19 @@ public class KillerSetup extends AppCompatActivity {
         for (int i = 0; i < linearLayout.getChildCount(); i++) {
             if (linearLayout.getChildAt(i) instanceof EditText) {
                 String child = ((EditText) linearLayout.getChildAt(i)).getText().toString();
+                child = child.trim();
+                if (child.isEmpty()) {
+                    text.setText("Name all players!");
+                    players.clear();
+                    return;
+                }
                 players.add(child);
-                lives = seekBar.getProgress() + 1;
             }
+            lives = seekBar.getProgress() + 1;
         }
+        Intent nextActivity = new Intent(context, GameKiller.class);
+        nextActivity.putExtra("lives", lives);
+        nextActivity.putExtra("players", players);
+        this.startActivity(nextActivity);
     }
 }
