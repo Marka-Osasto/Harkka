@@ -1,10 +1,13 @@
 package com.example.harkka;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -25,18 +28,25 @@ public class GameKiller extends AppCompatActivity {
     private int n;
     private int scorePrevious;
     private int placement;
+    private ArrayList<String> placementList = new ArrayList<>();
     private int index;
+    private LinearLayout linearLayout;
+    private Context context;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_killer);
 
+        context = GameKiller.this;
+
+        linearLayout = new LinearLayout(context);
+        linearLayout = findViewById(R.id.previousScores);
         index = 0;
         n = 1;
         scorePrevious = -1;
         scoreFinal = 0;
-        Context context = GameKiller.this;
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(context, R.layout.support_simple_spinner_dropdown_item);
         arrayAdapter.addAll(multiplierArray);
         text = findViewById(R.id.textView2);
@@ -46,7 +56,6 @@ public class GameKiller extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         int lives = extras.getInt("lives");
         ArrayList<String> playerNames = extras.getStringArrayList("players");
-
         for (String name : playerNames) {
             PlayerKiller playerKiller = new PlayerKiller(name, lives);
             players.add(playerKiller);
@@ -71,13 +80,17 @@ public class GameKiller extends AppCompatActivity {
             }
             scorePrevious = scoreFinal;
             index++;
-            if (index == players.size() - 1) {
+            if (index == players.size()) {
                 index = 0;
             }
+            Button button = new Button(context);
+            button.setText(player.getName() + " score: " + scoreFinal);
+            linearLayout.addView(button);
             player = players.get(index);
             
             if (!player.checkAlive()) {
                 player.setPlacement(placement);
+                addToPlacementList();
                 placement--;
                 player = nextAlivePlayer();
             }
@@ -95,10 +108,19 @@ public class GameKiller extends AppCompatActivity {
         } else {
             text.setText(player.getName() + " " + n + " throw, lives left: " + player.getLives() + ", current score: " + scoreFinal + " previous score: " + scorePrevious);
         }
+
     }
 
     // Returns next alive player. If there isn't any expect the current one the game ends.
     private PlayerKiller nextAlivePlayer() {
+        if (placement == 1) {
+            player.setPlacement(placement);
+            addToPlacementList();
+            Intent intent = new Intent(GameKiller.this, ScoreScreen.class);
+            intent.putExtra("placements", placementList);
+            GameKiller.this.startActivity(intent);
+        }
+
         for (int i = index; i < players.size(); i++) {
             player = players.get(i);
             if (player.checkAlive()) {
@@ -113,4 +135,12 @@ public class GameKiller extends AppCompatActivity {
         }
         return player = players.get(index);
     }
+
+    // Adds attributes of PlayerKiller to a list as strings
+    private void addToPlacementList() {
+        String playerInfo;
+        playerInfo = player.getPlacement() + ". " + player.getName();
+        placementList.add(playerInfo);
+    }
+
 }

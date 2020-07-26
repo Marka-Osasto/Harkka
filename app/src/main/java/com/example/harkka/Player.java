@@ -4,7 +4,6 @@ public abstract class Player {
 
     protected String name;
     protected int placement;
-    protected int score;
 
     Player(String name) {
         this.name = name;
@@ -14,12 +13,8 @@ public abstract class Player {
         return name;
     }
 
-    public int getScore() {
-        return score;
-    }
-
-    public void setScore(int score) {
-        this.score = score;
+    public int getPlacement() {
+        return placement;
     }
 
     public void setPlacement(int placement) {
