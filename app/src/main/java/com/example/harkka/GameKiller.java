@@ -19,18 +19,14 @@ public class GameKiller extends AppCompatActivity {
 
     private TextView text;
     private Spinner spinner;
-    private Context context;
     private String[] multiplierArray = {"1", "2", "3"};
-    private ArrayAdapter<String> arrayAdapter;
-    private Button nextThrow;
     private EditText scoreInput;
-    private TextView scoreText;
     private ArrayList<PlayerKiller> players = new ArrayList<>();
     private ListIterator<PlayerKiller> iterator = players.listIterator();
-    private int n;
     private PlayerKiller player;
     private int scoreFinal;
-    private int previousScore;
+    private int n;
+    private int scorePrevious;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,16 +34,16 @@ public class GameKiller extends AppCompatActivity {
         setContentView(R.layout.activity_game_killer);
 
         n = 1;
+        scorePrevious = -1;
         scoreFinal = 0;
-        previousScore = -1;
-        context = GameKiller.this;
-        arrayAdapter = new ArrayAdapter<>(context, R.layout.support_simple_spinner_dropdown_item);
+        Context context = GameKiller.this;
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(context, R.layout.support_simple_spinner_dropdown_item);
         arrayAdapter.addAll(multiplierArray);
         text = findViewById(R.id.textView2);
-        scoreText = findViewById(R.id.textView4);
+        TextView scoreText = findViewById(R.id.textView4);
         scoreInput = findViewById(R.id.score);
         spinner = findViewById(R.id.multiplierSpinner);
-        nextThrow = findViewById(R.id.button8);
+        Button nextThrow = findViewById(R.id.button8);
         spinner.setAdapter(arrayAdapter);
         Bundle extras = getIntent().getExtras();
         int lives = extras.getInt("lives");
@@ -55,55 +51,51 @@ public class GameKiller extends AppCompatActivity {
 
         for (String name : playerNames) {
             PlayerKiller playerKiller = new PlayerKiller(name, lives);
+            iterator.add(playerKiller);
         }
 
         while (iterator.hasPrevious()) {
             iterator.previous();
         }
         player = iterator.next();
-        text.setText(player.getName() + " " + n + " throw, lives left: " + player.getLives());
+        text.setText(player.getName() + " " + n + " throw, lives left: " + player.getLives() + ", current score: " + scoreFinal + ", first player" );
     }
 
     public void next(View v) {
+
         int multiplier;
+        int score;
+
         if (n >= 3) {
-            if (iterator.hasNext()) {
-                n = 1;
-                multiplier = Integer.parseInt(spinner.getSelectedItem().toString());
-                int score = Integer.parseInt(scoreInput.getText().toString());
-                scoreFinal += score * multiplier;
-                player.addScore(scoreFinal);
-                if (previousScore >= scoreFinal) {
-                    player.removeLive();
-                }
-                previousScore = scoreFinal;
+            multiplier = Integer.parseInt(spinner.getSelectedItem().toString());
+            score = Integer.parseInt(scoreInput.getText().toString());
+            scoreFinal += multiplier * score;
+            if (scorePrevious >= scoreFinal) {
+                player.removeLive();
             }
-            else {
+            scorePrevious = scoreFinal;
+            if (!iterator.hasNext()) {
                 while (iterator.hasPrevious()) {
                     iterator.previous();
                 }
-                player = iterator.next();
-                n = 1;
-                multiplier = Integer.parseInt(spinner.getSelectedItem().toString());
-                int score = Integer.parseInt(scoreInput.getText().toString());
-                scoreFinal += score * multiplier;
-                if (previousScore >= scoreFinal) {
-                    player.removeLive();
-                }
-                previousScore = scoreFinal;
-                player.addScore(scoreFinal);
+            }
+            player = iterator.next();
+            if (player.getLives() <= 0) {
+                while
             }
             scoreFinal = 0;
-            text.setText(player.getName() + " " + n + " throw, lives left: " + player.getLives());
-            scoreText.setText("Previous score " + previousScore);
-            player = iterator.next();
+            n = 1;
         }
         else {
             multiplier = Integer.parseInt(spinner.getSelectedItem().toString());
-            int score = Integer.parseInt(scoreInput.getText().toString());
-            scoreFinal += score * multiplier;
-            text.setText(player.getName() + " " + n + " throw, lives left: " + player.getLives());
+            score = Integer.parseInt(scoreInput.getText().toString());
+            scoreFinal += multiplier * score;
             n++;
+        }
+        if (scorePrevious == -1) {
+            text.setText(player.getName() + " " + n + " throw, lives left: " + player.getLives() + ", current score: " + scoreFinal + ", first player");
+        } else {
+            text.setText(player.getName() + " " + n + " throw, lives left: " + player.getLives() + ", current score: " + scoreFinal + " previous score: " + scorePrevious);
         }
     }
 }
