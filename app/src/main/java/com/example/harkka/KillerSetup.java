@@ -21,12 +21,13 @@ public class KillerSetup extends AppCompatActivity {
 
     private int lives;
     private TextView text;
-    private SeekBar seekBar;
+    private Spinner liveSpinner;
     private int playerCount;
-    private Spinner spinner;
+    private Spinner playerSpinner;
     private Context context;
     private LinearLayout linearLayout;
-    private ArrayAdapter<Integer> arrayAdapter;
+    private ArrayAdapter<Integer> playerAdapter;
+    private ArrayAdapter<Integer> liveAdapter;
     private ArrayList<String> players = new ArrayList<>();
 
     @Override
@@ -35,20 +36,28 @@ public class KillerSetup extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_killer_setup);
         linearLayout = new LinearLayout(context);
-        arrayAdapter = new ArrayAdapter<>(context, R.layout.support_simple_spinner_dropdown_item);
+        playerAdapter = new ArrayAdapter<>(context, R.layout.support_simple_spinner_dropdown_item);
+        liveAdapter = new ArrayAdapter<>(context, R.layout.support_simple_spinner_dropdown_item);
         text = findViewById(R.id.textViewLives);
-        seekBar = findViewById(R.id.liveBar);
+        liveSpinner = findViewById(R.id.spinner3);
         linearLayout = findViewById(R.id.scrollViewKiller);
-        spinner = findViewById(R.id.spinner2);
-        spinner.setPrompt("Player count");
-        Integer[] array = {2, 3, 4, 5, 6, 7, 8, 9, 10};
-        arrayAdapter.addAll(array);
-        spinner.setAdapter(arrayAdapter);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        playerSpinner = findViewById(R.id.spinner2);
+        playerSpinner.setPrompt("Player count");
+
+        Integer[] playerArray = {2, 3, 4, 5, 6, 7, 8, 9, 10};
+        Integer[] liveArray = {1, 2, 3, 4, 5, 6};
+
+        playerAdapter.addAll(playerArray);
+        playerSpinner.setAdapter(playerAdapter);
+
+        liveAdapter.addAll(liveArray);
+        liveSpinner.setAdapter(liveAdapter);
+
+        playerSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 linearLayout.removeAllViews();
-                playerCount = Integer.parseInt(spinner.getSelectedItem().toString());
+                playerCount = Integer.parseInt(playerSpinner.getSelectedItem().toString());
                 for (int n = 1; n <= playerCount; n++) {
                     EditText nameField = new EditText(context);
                     nameField.setHint("Set player " + n + " name");
@@ -62,6 +71,8 @@ public class KillerSetup extends AppCompatActivity {
             }
         });
     }
+    
+    // Starts the game when "Start"-button is pressed.
     public void start(View v) {
         for (int i = 0; i < linearLayout.getChildCount(); i++) {
             if (linearLayout.getChildAt(i) instanceof EditText) {
@@ -74,7 +85,7 @@ public class KillerSetup extends AppCompatActivity {
                 }
                 players.add(child);
             }
-            lives = seekBar.getProgress() + 1;
+            lives = Integer.parseInt(liveSpinner.getSelectedItem().toString());
         }
         Intent nextActivity = new Intent(context, GameKiller.class);
         nextActivity.putExtra("lives", lives);

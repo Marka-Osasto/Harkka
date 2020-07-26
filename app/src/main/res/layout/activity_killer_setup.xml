@@ -16,13 +16,20 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textSize="28dp" />
 
-    <SeekBar
-        android:id="@+id/liveBar"
-        style="@style/Widget.AppCompat.SeekBar.Discrete"
+    <Spinner
+        android:id="@+id/spinner3"
         android:layout_width="match_parent"
-        android:layout_height="36dp"
-        android:max="5"
-        android:progress="2" />
+        android:layout_height="43dp" />
+
+    <TextView
+        android:id="@+id/textViewPlayers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Select the amount of players"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textSize="28dp" />
+
 
     <Spinner
         android:id="@+id/spinner2"
