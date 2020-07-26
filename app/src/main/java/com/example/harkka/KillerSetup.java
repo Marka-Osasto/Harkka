@@ -19,15 +19,15 @@ import java.util.ArrayList;
 
 public class KillerSetup extends AppCompatActivity {
 
-    int lives;
-    TextView text;
-    SeekBar seekBar;
-    int playerCount;
-    Spinner spinner;
-    Context context;
-    LinearLayout linearLayout;
-    ArrayAdapter<Integer> arrayAdapter;
-    ArrayList<String> players = new ArrayList<>();
+    private int lives;
+    private TextView text;
+    private SeekBar seekBar;
+    private int playerCount;
+    private Spinner spinner;
+    private Context context;
+    private LinearLayout linearLayout;
+    private ArrayAdapter<Integer> arrayAdapter;
+    private ArrayList<String> players = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

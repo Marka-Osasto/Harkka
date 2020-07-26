@@ -11,8 +11,8 @@ import android.widget.Spinner;
 
 public class MainActivity extends AppCompatActivity {
 
-    Context context;
-    Spinner fileSpinner;
+    private Context context;
+    private Spinner fileSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

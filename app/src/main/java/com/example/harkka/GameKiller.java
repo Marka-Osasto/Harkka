@@ -17,14 +17,14 @@ import java.util.ListIterator;
 
 public class GameKiller extends AppCompatActivity {
 
-    TextView text;
-    Spinner spinner;
-    Context context;
+    private TextView text;
+    private Spinner spinner;
+    private Context context;
     private String[] multiplierArray = {"1", "2", "3"};
-    ArrayAdapter<String> arrayAdapter;
-    Button nextThrow;
-    EditText scoreInput;
-    TextView scoreText;
+    private ArrayAdapter<String> arrayAdapter;
+    private Button nextThrow;
+    private EditText scoreInput;
+    private TextView scoreText;
     private ArrayList<PlayerKiller> players = new ArrayList<>();
     private ListIterator<PlayerKiller> iterator = players.listIterator();
     private int n;
@@ -36,6 +36,7 @@ public class GameKiller extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_killer);
+
         n = 1;
         scoreFinal = 0;
         previousScore = -1;
@@ -51,10 +52,11 @@ public class GameKiller extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         int lives = extras.getInt("lives");
         ArrayList<String> playerNames = extras.getStringArrayList("players");
+
         for (String name : playerNames) {
             PlayerKiller playerKiller = new PlayerKiller(name, lives);
-            iterator.add(playerKiller);
         }
+
         while (iterator.hasPrevious()) {
             iterator.previous();
         }
@@ -97,11 +99,11 @@ public class GameKiller extends AppCompatActivity {
             player = iterator.next();
         }
         else {
-            n++;
             multiplier = Integer.parseInt(spinner.getSelectedItem().toString());
             int score = Integer.parseInt(scoreInput.getText().toString());
             scoreFinal += score * multiplier;
             text.setText(player.getName() + " " + n + " throw, lives left: " + player.getLives());
+            n++;
         }
     }
 }
