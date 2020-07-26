@@ -11,7 +11,6 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
-import java.util.ListIterator;
 
 
 public class GameKiller extends AppCompatActivity {
@@ -21,18 +20,19 @@ public class GameKiller extends AppCompatActivity {
     private String[] multiplierArray = {"1", "2", "3"};
     private EditText scoreInput;
     private ArrayList<PlayerKiller> players = new ArrayList<>();
-    private ListIterator<PlayerKiller> iterator = players.listIterator();
     private PlayerKiller player;
     private int scoreFinal;
     private int n;
     private int scorePrevious;
     private int placement;
+    private int index;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_killer);
 
+        index = 0;
         n = 1;
         scorePrevious = -1;
         scoreFinal = 0;
@@ -49,16 +49,14 @@ public class GameKiller extends AppCompatActivity {
 
         for (String name : playerNames) {
             PlayerKiller playerKiller = new PlayerKiller(name, lives);
-            iterator.add(playerKiller);
+            players.add(playerKiller);
         }
         placement = players.size();
-        while (iterator.hasPrevious()) {
-            iterator.previous();
-        }
-        player = iterator.next();
+        player = players.get(index);
         text.setText(player.getName() + " " + n + " throw, lives left: " + player.getLives() + ", current score: " + scoreFinal + ", first player" );
     }
 
+    // Moves the game to the next throw. If player has thrown 3 darts then the game moves to the next player
     public void next(View v) {
 
         int multiplier;
@@ -72,24 +70,16 @@ public class GameKiller extends AppCompatActivity {
                 player.removeLive();
             }
             scorePrevious = scoreFinal;
-            if (!iterator.hasNext()) {
-                while (iterator.hasPrevious()) {
-                    iterator.previous();
-                }
+            index++;
+            if (index == players.size() - 1) {
+                index = 0;
             }
-            player = iterator.next();
-            if (player.checkAlive()) {
+            player = players.get(index);
+            
+            if (!player.checkAlive()) {
                 player.setPlacement(placement);
                 placement--;
-                while (iterator.hasNext()) {
-                    player = iterator.next();
-                    if (player.checkAlive()) {
-                        break;
-                    }
-                }
-                while (iterator.hasPrevious()) {
-                    iterator.previous();
-                }
+                player = nextAlivePlayer();
             }
             scoreFinal = 0;
             n = 1;
@@ -105,5 +95,22 @@ public class GameKiller extends AppCompatActivity {
         } else {
             text.setText(player.getName() + " " + n + " throw, lives left: " + player.getLives() + ", current score: " + scoreFinal + " previous score: " + scorePrevious);
         }
+    }
+
+    // Returns next alive player. If there isn't any expect the current one the game ends.
+    private PlayerKiller nextAlivePlayer() {
+        for (int i = index; i < players.size(); i++) {
+            player = players.get(i);
+            if (player.checkAlive()) {
+                return player;
+            }
+        }
+        for (int i = 0; i < index; i++) {
+            player = players.get(i);
+            if (player.checkAlive()) {
+                return player;
+            }
+        }
+        return player = players.get(index);
     }
 }
