@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -27,6 +26,7 @@ public class GameKiller extends AppCompatActivity {
     private int scoreFinal;
     private int n;
     private int scorePrevious;
+    private int placement;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,10 +40,8 @@ public class GameKiller extends AppCompatActivity {
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(context, R.layout.support_simple_spinner_dropdown_item);
         arrayAdapter.addAll(multiplierArray);
         text = findViewById(R.id.textView2);
-        TextView scoreText = findViewById(R.id.textView4);
         scoreInput = findViewById(R.id.score);
         spinner = findViewById(R.id.multiplierSpinner);
-        Button nextThrow = findViewById(R.id.button8);
         spinner.setAdapter(arrayAdapter);
         Bundle extras = getIntent().getExtras();
         int lives = extras.getInt("lives");
@@ -53,7 +51,7 @@ public class GameKiller extends AppCompatActivity {
             PlayerKiller playerKiller = new PlayerKiller(name, lives);
             iterator.add(playerKiller);
         }
-
+        placement = players.size();
         while (iterator.hasPrevious()) {
             iterator.previous();
         }
@@ -80,8 +78,18 @@ public class GameKiller extends AppCompatActivity {
                 }
             }
             player = iterator.next();
-            if (player.getLives() <= 0) {
-                while
+            if (player.checkAlive()) {
+                player.setPlacement(placement);
+                placement--;
+                while (iterator.hasNext()) {
+                    player = iterator.next();
+                    if (player.checkAlive()) {
+                        break;
+                    }
+                }
+                while (iterator.hasPrevious()) {
+                    iterator.previous();
+                }
             }
             scoreFinal = 0;
             n = 1;

@@ -1,7 +1,5 @@
 package com.example.harkka;
 
-import java.util.Date;
-
 public abstract class Player {
 
     protected String name;
@@ -18,6 +16,14 @@ public abstract class Player {
 
     public int getScore() {
         return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    public void setPlacement(int placement) {
+        this.placement = placement;
     }
 }
 
@@ -36,12 +42,11 @@ class PlayerKiller extends Player {
         this.lives = lives;
     }
 
-    public void addScore(int score) {
-        this.score = score;
-    }
-
     public int getLives() {
         return lives;
+    }
+    public boolean checkAlive() {
+        return lives > 0;
     }
     public void removeLive() {
         lives--;
