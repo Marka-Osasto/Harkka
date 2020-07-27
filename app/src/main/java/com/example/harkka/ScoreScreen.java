@@ -19,6 +19,7 @@ public class ScoreScreen extends AppCompatActivity {
     private ListIterator<String> iterator;
     private Button button;
     private ArrayList<String> scoreInfo;
+    private int type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,19 +30,32 @@ public class ScoreScreen extends AppCompatActivity {
         Intent intent = getIntent();
         placements = intent.getStringArrayListExtra("placements");
         scoreInfo = intent.getStringArrayListExtra("data");
-        iterator = placements.listIterator(placements.size());
+        type = intent.getIntExtra("type", 0);
 
         final Context context = ScoreScreen.this;
-
         linearLayout = new LinearLayout(context);
         linearLayout = findViewById(R.id.score_layout);
 
-        while (iterator.hasPrevious()) {
-            String playerInfo = iterator.previous();
-            button = new Button(context);
-            button.setText(playerInfo);
-            linearLayout.addView(button);
+        if (type == 0) {
+            iterator = placements.listIterator();
+            while (iterator.hasNext()) {
+                String playerInfo = iterator.next();
+                button = new Button(context);
+                button.setText(playerInfo);
+                linearLayout.addView(button);
+            }
         }
+        else if (type == 1) {
+            iterator = placements.listIterator(placements.size());
+            while (iterator.hasPrevious()) {
+                String playerInfo = iterator.previous();
+                button = new Button(context);
+                button.setText(playerInfo);
+                linearLayout.addView(button);
+            }
+        }
+
+
         button = new Button(context);
         button.setText("Return to main menu");
         button.setOnClickListener(new View.OnClickListener() {
