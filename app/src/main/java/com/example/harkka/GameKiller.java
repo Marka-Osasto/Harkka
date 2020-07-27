@@ -84,6 +84,8 @@ public class GameKiller extends AppCompatActivity {
                 player.removeLive();
                 if (!player.checkAlive()) {
                     addToPlacementList();
+                    players.remove(index);
+                    index--;
                 }
             }
             scorePrevious = scoreFinal;
@@ -99,8 +101,24 @@ public class GameKiller extends AppCompatActivity {
             button.setText(player.getName() + " score: " + scoreFinal);
             linearLayout.addView(button);
             player = players.get(index);
+
+            if (players.size() == 1) {
+                button = new Button(context);
+                current = Calendar.getInstance().getTime();
+                df = new SimpleDateFormat("dd-MM-yyyy,HH:mm");
+                scoreInfo = player.getName() + "," + scoreFinal + "," + df.format(current);
+                scoreList.add(scoreInfo);
+                button.setText(player.getName() + " score: " + scoreFinal);
+                linearLayout.addView(button);
+                addToPlacementList();
+
+                Intent intent = new Intent(GameKiller.this, ScoreScreen.class);
+                intent.putExtra("placements", placementList);
+                intent.putExtra("data", scoreList);
+                this.finish();
+                GameKiller.this.startActivity(intent);
+            }
             
-            player = nextAlivePlayer();
             scoreFinal = 0;
             n = 1;
         }
@@ -122,36 +140,6 @@ public class GameKiller extends AppCompatActivity {
             text.setText(player.getName() + " " + n + " throw, lives left: " + player.getLives() + ", current score: " + scoreFinal + " previous score: " + scorePrevious);
         }
 
-    }
-
-    // Returns next alive player. If there isn't any expect the current one the game ends.
-    private PlayerKiller nextAlivePlayer() {
-
-        if (placement == 1) {
-            player.setPlacement(placement);
-            addToPlacementList();
-
-            Intent intent = new Intent(GameKiller.this, ScoreScreen.class);
-            intent.putExtra("placements", placementList);
-            intent.putExtra("data", scoreList);
-            this.finish();
-            GameKiller.this.startActivity(intent);
-        }
-
-        for (int i = index; i < players.size(); i++) {
-            player = players.get(i);
-            if (player.checkAlive()) {
-                return player;
-            }
-        }
-        for (int i = 0; i <= index; i++) {
-            player = players.get(i);
-            if (player.checkAlive()) {
-                return player;
-            }
-        }
-
-        return player = players.get(index);
     }
 
     // Adds attributes of PlayerKiller to a list as strings

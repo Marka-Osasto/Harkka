@@ -98,8 +98,9 @@ public class GameDarts extends AppCompatActivity {
             button.setText(player.getName() + " score left: " + player.getScore());
             linearLayout.addView(button);
 
+            player = players.get(index);
+
             if (players.size() == 1) {
-                player = players.get(index);
                 button = new Button(context);
                 current = Calendar.getInstance().getTime();
                 df = new SimpleDateFormat("dd-MM-yyyy,HH:mm");
@@ -115,11 +116,8 @@ public class GameDarts extends AppCompatActivity {
                 this.finish();
                 GameDarts.this.startActivity(intent);
             }
-            else {
-                player = players.get(index);
                 scoreFinal = 0;
                 n = 1;
-            }
         }
         else {
             multiplier = Integer.parseInt(spinner.getSelectedItem().toString());
