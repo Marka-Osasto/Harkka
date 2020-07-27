@@ -21,24 +21,4 @@
         android:onClick="newKillerMatch"
         android:text="New killer match" />
 
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="continueGame"
-        android:text="Continue game from CSV" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Select a game to continue from"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textSize="28dp"
-        android:gravity="center"/>
-
-    <Spinner
-        android:id="@+id/fileSpinner"
-        android:layout_width="match_parent"
-        android:layout_height="50dp" />
 </LinearLayout>

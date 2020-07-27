@@ -13,7 +13,11 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 
 public class GameKiller extends AppCompatActivity {
@@ -29,6 +33,7 @@ public class GameKiller extends AppCompatActivity {
     private int scorePrevious;
     private int placement;
     private ArrayList<String> placementList = new ArrayList<>();
+    private ArrayList<String> scoreList = new ArrayList<>();
     private int index;
     private LinearLayout linearLayout;
     private Context context;
@@ -89,6 +94,10 @@ public class GameKiller extends AppCompatActivity {
                 index = 0;
             }
             Button button = new Button(context);
+            Date current = Calendar.getInstance().getTime();
+            DateFormat df = new SimpleDateFormat("dd-MM-yyyy,HH:mm");
+            String scoreInfo = player.getName() + "," + scoreFinal + "," + df.format(current);
+            scoreList.add(scoreInfo);
             button.setText(player.getName() + " score: " + scoreFinal);
             linearLayout.addView(button);
             player = players.get(index);
@@ -120,6 +129,7 @@ public class GameKiller extends AppCompatActivity {
 
             Intent intent = new Intent(GameKiller.this, ScoreScreen.class);
             intent.putExtra("placements", placementList);
+            intent.putExtra("data", scoreList);
             this.finish();
             GameKiller.this.startActivity(intent);
         }

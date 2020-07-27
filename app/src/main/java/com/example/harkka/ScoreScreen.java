@@ -18,6 +18,7 @@ public class ScoreScreen extends AppCompatActivity {
     private ArrayList<String> placements = new ArrayList<>();
     private ListIterator<String> iterator;
     private Button button;
+    private ArrayList<String> scoreInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +28,7 @@ public class ScoreScreen extends AppCompatActivity {
 
         Intent intent = getIntent();
         placements = intent.getStringArrayListExtra("placements");
+        scoreInfo = intent.getStringArrayListExtra("data");
         iterator = placements.listIterator(placements.size());
 
         final Context context = ScoreScreen.this;
@@ -46,6 +48,15 @@ public class ScoreScreen extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 ScoreScreen.this.finish();
+            }
+        });
+        linearLayout.addView(button);
+        button = new Button(context);
+        button.setText("Export to CSV");
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
             }
         });
         linearLayout.addView(button);
