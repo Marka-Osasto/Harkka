@@ -83,9 +83,7 @@ public class GameKiller extends AppCompatActivity {
             if (scorePrevious >= scoreFinal) {
                 player.removeLive();
                 if (!player.checkAlive()) {
-                    player.setPlacement(placement);
                     addToPlacementList();
-                    placement--;
                 }
             }
             scorePrevious = scoreFinal;
@@ -158,9 +156,11 @@ public class GameKiller extends AppCompatActivity {
 
     // Adds attributes of PlayerKiller to a list as strings
     private void addToPlacementList() {
+        player.setPlacement(placement);
         String playerInfo;
         playerInfo = player.getPlacement() + ". " + player.getName();
         placementList.add(playerInfo);
+        placement--;
     }
 
 }

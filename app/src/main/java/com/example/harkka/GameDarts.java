@@ -1,6 +1,7 @@
 package com.example.harkka;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -66,7 +67,7 @@ public class GameDarts extends AppCompatActivity {
         text.setText(player.getName() + " " + n + " throw, score left: " + player.getScore() + ", current score: " + scoreFinal);
     }
 
-    // Moves the game to the next throw. If player has thrown 3 darts then the game moves to the next player
+    // Moves the game to the next throw. If player has thrown 3 darts then the game moves to the next player.
     public void next(View v) {
 
         int multiplier;
@@ -76,7 +77,14 @@ public class GameDarts extends AppCompatActivity {
             multiplier = Integer.parseInt(spinner.getSelectedItem().toString());
             score = Integer.parseInt(scoreInput.getText().toString());
             scoreFinal += multiplier * score;
-            player.removeScore(scoreFinal);
+            if (!(player.getScore() - scoreFinal < 0)) {
+                player.removeScore(scoreFinal);
+            }
+            if (player.getScore() == 0) {
+                addToPlacementList();
+                index--;
+            }
+
             index++;
             if (index == players.size()) {
                 index = 0;
@@ -90,9 +98,28 @@ public class GameDarts extends AppCompatActivity {
             button.setText(player.getName() + " score left: " + player.getScore());
             linearLayout.addView(button);
 
-            player = players.get(index);
-            scoreFinal = 0;
-            n = 1;
+            if (players.size() == 1) {
+                player = players.get(index);
+                button = new Button(context);
+                current = Calendar.getInstance().getTime();
+                df = new SimpleDateFormat("dd-MM-yyyy,HH:mm");
+                scoreInfo = player.getName() + "," + scoreFinal + "," + df.format(current);
+                scoreList.add(scoreInfo);
+                button.setText(player.getName() + " score left: " + player.getScore());
+                linearLayout.addView(button);
+                addToPlacementList();
+
+                Intent intent = new Intent(GameDarts.this, ScoreScreen.class);
+                intent.putExtra("placements", placementList);
+                intent.putExtra("data", scoreList);
+                this.finish();
+                GameDarts.this.startActivity(intent);
+            }
+            else {
+                player = players.get(index);
+                scoreFinal = 0;
+                n = 1;
+            }
         }
         else {
             multiplier = Integer.parseInt(spinner.getSelectedItem().toString());
@@ -111,8 +138,11 @@ public class GameDarts extends AppCompatActivity {
 
     // Adds attributes of PlayerKiller to a list as strings
     private void addToPlacementList() {
+        player.setPlacement(placement);
         String playerInfo;
         playerInfo = player.getPlacement() + ". " + player.getName();
         placementList.add(playerInfo);
+        placement++;
+        players.remove(index);
     }
 }
