@@ -108,7 +108,13 @@ public class GameKiller extends AppCompatActivity {
         }
         else {
             multiplier = Integer.parseInt(spinner.getSelectedItem().toString());
-            score = Integer.parseInt(scoreInput.getText().toString());
+            try {
+                score = Integer.parseInt(scoreInput.getText().toString());
+            }
+            catch (Exception NumberFormatException) {
+                score = 0;
+                n--;
+            }
             scoreFinal += multiplier * score;
             n++;
         }

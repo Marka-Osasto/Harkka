@@ -17,20 +17,23 @@ import java.util.ArrayList;
 
 public class DartsSetup extends AppCompatActivity {
 
-    int startingPoints;
-    TextView text;
-    Spinner spinner;
-    int playerCount;
-    Context context;
-    LinearLayout linearLayout;
-    ArrayAdapter<Integer> arrayAdapter;
-    ArrayList<String> players = new ArrayList<>();
+    private int startingScore;
+    private TextView text;
+    private Spinner spinner;
+    private int playerCount;
+    private Context context;
+    private LinearLayout linearLayout;
+    private ArrayAdapter<Integer> arrayAdapter;
+    private ArrayList<String> players = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         context = DartsSetup.this;
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_darts_setup);
+        startingScore = 0;
         linearLayout = new LinearLayout(context);
         arrayAdapter = new ArrayAdapter<>(context, R.layout.support_simple_spinner_dropdown_item);
         text = findViewById(R.id.textView1);
@@ -61,25 +64,36 @@ public class DartsSetup extends AppCompatActivity {
     // Sets starting points to 501
     public void points501(View v) {
         text.setText("501 selected");
-        startingPoints = 501;
+        startingScore = 501;
     }
     // Sets starting points to 301
     public void points301(View v) {
         text.setText("301 selected");
-        startingPoints = 301;
+        startingScore = 301;
     }
     // Starts darts game
     public void start(View v) {
-        for (int i = 0; i < linearLayout.getChildCount(); i++) {
-            if (linearLayout.getChildAt(i) instanceof EditText) {
-                String child = ((EditText) linearLayout.getChildAt(i)).getText().toString();
-                players.add(child);
-            }
+        if (startingScore == 0) {
+            text.setText("You haven't selected starting points!");
         }
-        Intent nextActivity = new Intent(context, GameDarts.class);
-        nextActivity.putExtra("points", startingPoints);
-        nextActivity.putExtra("players", players);
-        this.finish();
-        this.startActivity(nextActivity);
+        else {
+            for (int i = 0; i < linearLayout.getChildCount(); i++) {
+                if (linearLayout.getChildAt(i) instanceof EditText) {
+                    String child = ((EditText) linearLayout.getChildAt(i)).getText().toString();
+                    child = child.trim();
+                    if (child.isEmpty()) {
+                        text.setText("Name all players!");
+                        players.clear();
+                        return;
+                    }
+                    players.add(child);
+                }
+            }
+            Intent nextActivity = new Intent(context, GameDarts.class);
+            nextActivity.putExtra("score", startingScore);
+            nextActivity.putExtra("players", players);
+            this.finish();
+            this.startActivity(nextActivity);
+        }
     }
 }

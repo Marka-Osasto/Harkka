@@ -31,8 +31,8 @@ class PlayerDarts extends Player {
         this.score = score;
     }
 
-    public void setScore(int score) {
-        this.score = score;
+    public void removeScore(int score) {
+        this.score -= score;
     }
 
     public int getScore() {
