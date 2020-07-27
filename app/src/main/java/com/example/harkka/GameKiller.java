@@ -77,6 +77,11 @@ public class GameKiller extends AppCompatActivity {
             scoreFinal += multiplier * score;
             if (scorePrevious >= scoreFinal) {
                 player.removeLive();
+                if (!player.checkAlive()) {
+                    player.setPlacement(placement);
+                    addToPlacementList();
+                    placement--;
+                }
             }
             scorePrevious = scoreFinal;
             index++;
@@ -88,12 +93,7 @@ public class GameKiller extends AppCompatActivity {
             linearLayout.addView(button);
             player = players.get(index);
             
-            if (!player.checkAlive()) {
-                player.setPlacement(placement);
-                addToPlacementList();
-                placement--;
-                player = nextAlivePlayer();
-            }
+            player = nextAlivePlayer();
             scoreFinal = 0;
             n = 1;
         }
@@ -113,11 +113,14 @@ public class GameKiller extends AppCompatActivity {
 
     // Returns next alive player. If there isn't any expect the current one the game ends.
     private PlayerKiller nextAlivePlayer() {
+
         if (placement == 1) {
             player.setPlacement(placement);
             addToPlacementList();
+
             Intent intent = new Intent(GameKiller.this, ScoreScreen.class);
             intent.putExtra("placements", placementList);
+            this.finish();
             GameKiller.this.startActivity(intent);
         }
 
@@ -127,12 +130,13 @@ public class GameKiller extends AppCompatActivity {
                 return player;
             }
         }
-        for (int i = 0; i < index; i++) {
+        for (int i = 0; i <= index; i++) {
             player = players.get(i);
             if (player.checkAlive()) {
                 return player;
             }
         }
+
         return player = players.get(index);
     }
 

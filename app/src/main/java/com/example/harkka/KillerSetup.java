@@ -3,13 +3,11 @@ package com.example.harkka;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -90,6 +88,7 @@ public class KillerSetup extends AppCompatActivity {
         Intent nextActivity = new Intent(context, GameKiller.class);
         nextActivity.putExtra("lives", lives);
         nextActivity.putExtra("players", players);
+        this.finish();
         this.startActivity(nextActivity);
     }
 }

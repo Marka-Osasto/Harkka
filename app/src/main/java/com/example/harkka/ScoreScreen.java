@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
@@ -28,7 +29,7 @@ public class ScoreScreen extends AppCompatActivity {
         placements = intent.getStringArrayListExtra("placements");
         iterator = placements.listIterator(placements.size());
 
-        Context context = ScoreScreen.this;
+        final Context context = ScoreScreen.this;
 
         linearLayout = new LinearLayout(context);
         linearLayout = findViewById(R.id.score_layout);
@@ -39,5 +40,14 @@ public class ScoreScreen extends AppCompatActivity {
             button.setText(playerInfo);
             linearLayout.addView(button);
         }
+        button = new Button(context);
+        button.setText("Return to main menu");
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ScoreScreen.this.finish();
+            }
+        });
+        linearLayout.addView(button);
     }
 }
