@@ -1,6 +1,7 @@
 package com.example.harkka;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -57,14 +58,17 @@ public class DartsSetup extends AppCompatActivity {
             }
         });
     }
+    // Sets starting points to 501
     public void points501(View v) {
         text.setText("501 selected");
         startingPoints = 501;
     }
+    // Sets starting points to 301
     public void points301(View v) {
         text.setText("301 selected");
         startingPoints = 301;
     }
+    // Starts darts game
     public void start(View v) {
         for (int i = 0; i < linearLayout.getChildCount(); i++) {
             if (linearLayout.getChildAt(i) instanceof EditText) {
@@ -72,5 +76,10 @@ public class DartsSetup extends AppCompatActivity {
                 players.add(child);
             }
         }
+        Intent nextActivity = new Intent(context, GameDarts.class);
+        nextActivity.putExtra("points", startingPoints);
+        nextActivity.putExtra("players", players);
+        this.finish();
+        this.startActivity(nextActivity);
     }
 }

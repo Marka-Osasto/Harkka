@@ -23,8 +23,20 @@ public abstract class Player {
 }
 
 class PlayerDarts extends Player {
-    PlayerDarts(String name) {
+
+    private int score;
+
+    PlayerDarts(String name, int score) {
         super(name);
+        this.score = score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    public int getScore() {
+        return score;
     }
 }
 
