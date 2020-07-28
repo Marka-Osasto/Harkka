@@ -35,6 +35,7 @@ public class GameDarts extends AppCompatActivity {
     private int index;
     private LinearLayout linearLayout;
     private Context context;
+    private TextView view;
 
 
     @Override
@@ -53,12 +54,15 @@ public class GameDarts extends AppCompatActivity {
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(context, R.layout.support_simple_spinner_dropdown_item);
         arrayAdapter.addAll(multiplierArray);
         text = findViewById(R.id.textView2);
+        view = findViewById(R.id.typeView);
         scoreInput = findViewById(R.id.score);
         spinner = findViewById(R.id.multiplierSpinner);
         spinner.setAdapter(arrayAdapter);
+        view.setText("Darts");
         Bundle extras = getIntent().getExtras();
         int score = extras.getInt("score");
         ArrayList<String> playerNames = extras.getStringArrayList("players");
+        //Creates player objects
         for (String name : playerNames) {
             PlayerDarts playerDarts = new PlayerDarts(name, score);
             players.add(playerDarts);
@@ -77,6 +81,7 @@ public class GameDarts extends AppCompatActivity {
             multiplier = Integer.parseInt(spinner.getSelectedItem().toString());
             score = Integer.parseInt(scoreInput.getText().toString());
             scoreFinal += multiplier * score;
+            //Removes score from a player if the remaining score isn't less than 0
             if (!(player.getScore() - scoreFinal < 0)) {
                 player.removeScore(scoreFinal);
             }
@@ -86,20 +91,22 @@ public class GameDarts extends AppCompatActivity {
             }
 
             index++;
+            //Starts list from the beginning when index gets to end
             if (index == players.size()) {
                 index = 0;
             }
-
-            Button button = new Button(context);
+            //Saves game data to string for exporting
             Date current = Calendar.getInstance().getTime();
             DateFormat df = new SimpleDateFormat("dd-MM-yyyy,HH:mm");
             String scoreInfo = player.getName() + "," + scoreFinal + "," + df.format(current);
             scoreList.add(scoreInfo);
+            //Creates buttons where players can browse previous scores
+            Button button = new Button(context);
             button.setText(player.getName() + " score left: " + player.getScore());
             linearLayout.addView(button);
 
             player = players.get(index);
-
+            //Ends game if there is only one player remaining
             if (players.size() == 1) {
                 button = new Button(context);
                 current = Calendar.getInstance().getTime();
@@ -122,6 +129,7 @@ public class GameDarts extends AppCompatActivity {
         }
         else {
             multiplier = Integer.parseInt(spinner.getSelectedItem().toString());
+            //Checks if score entry is empty
             try {
                 score = Integer.parseInt(scoreInput.getText().toString());
             }

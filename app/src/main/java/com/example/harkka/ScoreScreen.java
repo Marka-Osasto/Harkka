@@ -4,11 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.icu.util.Output;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.ListIterator;
 
@@ -35,7 +37,7 @@ public class ScoreScreen extends AppCompatActivity {
         final Context context = ScoreScreen.this;
         linearLayout = new LinearLayout(context);
         linearLayout = findViewById(R.id.score_layout);
-
+        //Checks if game mode is killer or darts and creates iterator moving the list in correct order
         if (type == 0) {
             iterator = placements.listIterator();
             while (iterator.hasNext()) {
@@ -55,7 +57,7 @@ public class ScoreScreen extends AppCompatActivity {
             }
         }
 
-
+        //Creates score screen buttons
         button = new Button(context);
         button.setText("Return to main menu");
         button.setOnClickListener(new View.OnClickListener() {
@@ -70,9 +72,15 @@ public class ScoreScreen extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Export.exportToCSV(placements, scoreInfo, type);
             }
         });
         linearLayout.addView(button);
+    }
+}
+//Exports game data to a CSV file
+class Export {
+    static void exportToCSV(ArrayList<String> placement, ArrayList<String> scoreInfo, int type) {
+        OutputStreamWriter osw = new OutputStreamWriter();
     }
 }

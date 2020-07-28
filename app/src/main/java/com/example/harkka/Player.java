@@ -1,5 +1,7 @@
 package com.example.harkka;
 
+
+//Contains player info containing Player class and its subclasses
 public abstract class Player {
 
     protected String name;
