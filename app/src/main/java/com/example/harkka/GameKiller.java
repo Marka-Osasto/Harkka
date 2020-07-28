@@ -123,7 +123,7 @@ public class GameKiller extends AppCompatActivity {
                 Intent intent = new Intent(GameKiller.this, ScoreScreen.class);
                 intent.putExtra("placements", placementList);
                 intent.putExtra("data", scoreList);
-                intent.putExtra("type", 1);
+                intent.putExtra("type", "Killer");
                 this.finish();
                 GameKiller.this.startActivity(intent);
             }

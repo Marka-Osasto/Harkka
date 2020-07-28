@@ -120,7 +120,7 @@ public class GameDarts extends AppCompatActivity {
                 Intent intent = new Intent(GameDarts.this, ScoreScreen.class);
                 intent.putExtra("placements", placementList);
                 intent.putExtra("data", scoreList);
-                intent.putExtra("type", 0);
+                intent.putExtra("type", "Darts");
                 this.finish();
                 GameDarts.this.startActivity(intent);
             }
