@@ -108,13 +108,6 @@ public class GameDarts extends AppCompatActivity {
             player = players.get(index);
             //Ends game if there is only one player remaining
             if (players.size() == 1) {
-                button = new Button(context);
-                current = Calendar.getInstance().getTime();
-                df = new SimpleDateFormat("dd-MM-yyyy,HH:mm");
-                scoreInfo = player.getName() + "," + scoreFinal + "," + df.format(current);
-                scoreList.add(scoreInfo);
-                button.setText(player.getName() + " score left: " + player.getScore());
-                linearLayout.addView(button);
                 addToPlacementList();
 
                 Intent intent = new Intent(GameDarts.this, ScoreScreen.class);

@@ -1,19 +1,16 @@
 package com.example.harkka;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.icu.util.Output;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -93,32 +90,26 @@ class Export {
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy-HH,mm");
         String fileName = type + sdf.format(current) + ".csv";
         OutputStreamWriter osw = null;
+
         try {
             osw = new OutputStreamWriter(context.openFileOutput(fileName, context.MODE_PRIVATE));
+
+            osw.write("placement,player\n");
+
+            for (String placement : placementList) {
+                osw.write(placement.replace(". ", ",") + "\n");
+            }
+
+            osw.write("\n");
+            osw.write("player,score,datetime\n");
+            for (String score : scoreInfo) {
+                osw.write(score + "\n");
+            }
+
+            osw.close();
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-        }
-        for (String placement : placementList) {
-            try {
-                osw.write(placement + "\n");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        try {
-            osw.write("\n");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        for (String score : scoreInfo) {
-            try {
-                osw.write(score + "\n");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        try {
-            osw.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
